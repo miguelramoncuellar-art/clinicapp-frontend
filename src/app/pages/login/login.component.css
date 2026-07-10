@@ -1,0 +1,88 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef4f2;
+  font-family: system-ui, sans-serif;
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(16, 74, 61, 0.12);
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  margin: 0;
+  color: #104a3d;
+  font-size: 1.8rem;
+}
+
+.subtitulo {
+  margin: 0.25rem 0 1.5rem;
+  color: #6b7f7a;
+  font-size: 0.9rem;
+}
+
+label {
+  font-size: 0.85rem;
+  color: #104a3d;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+input {
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #c4d4cf;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+input:focus {
+  outline: 2px solid #1b7a63;
+  border-color: transparent;
+}
+
+button {
+  padding: 0.7rem;
+  background: #1b7a63;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: #14604e;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mensaje {
+  margin: 1rem 0 0;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.mensaje.exito {
+  background: #e3f4ee;
+  color: #14604e;
+}
+
+.mensaje.error {
+  background: #fdecec;
+  color: #a33a3a;
+}

@@ -1,1 +1,32 @@
-<p>login works!</p>
+<main class="login-page">
+  <section class="login-card">
+    <h1>ClinicApp</h1>
+    <p class="subtitulo">Gestión de inventario clínico</p>
+
+    <label for="correo">Correo</label>
+    <input
+      id="correo"
+      type="email"
+      placeholder="usuario@correo.com"
+      [(ngModel)]="correo"
+    />
+
+    <label for="contrasena">Contraseña</label>
+    <input
+      id="contrasena"
+      type="password"
+      placeholder="••••••••"
+      [(ngModel)]="contrasena"
+    />
+
+    <button (click)="onSubmit()" [disabled]="cargando()">
+      {{ cargando() ? 'Ingresando...' : 'Ingresar' }}
+    </button>
+
+    @if (mensaje()) {
+      <p class="mensaje" [class.exito]="loginExitoso()" [class.error]="!loginExitoso()">
+        {{ mensaje() }}
+      </p>
+    }
+  </section>
+</main>
