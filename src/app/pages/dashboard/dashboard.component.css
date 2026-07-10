@@ -1,0 +1,110 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #eef4f2;
+  font-family: system-ui, sans-serif;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #104a3d;
+  color: #ffffff;
+  padding: 1rem 2rem;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.saludo {
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
+  color: #cfe3dd;
+}
+
+.rol {
+  background: #1b7a63;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+  text-transform: capitalize;
+}
+
+.btn-logout {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.contenido {
+  padding: 2rem;
+}
+
+.contenido h2 {
+  color: #104a3d;
+  margin-top: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(16, 74, 61, 0.12);
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+thead {
+  background: #e3f4ee;
+  color: #104a3d;
+}
+
+tbody tr:nth-child(even) {
+  background: #f6faf9;
+}
+
+.badge {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge.activo {
+  background: #e3f4ee;
+  color: #14604e;
+}
+
+.badge.inactivo {
+  background: #fdecec;
+  color: #a33a3a;
+}
+
+.estado {
+  color: #6b7f7a;
+}
+
+.estado.error {
+  background: #fdecec;
+  color: #a33a3a;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  display: inline-block;
+}

@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthenticateService } from '../../services/authenticate.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { AuthenticateService } from '../../services/authenticate.service';
 })
 export class LoginComponent {
   private readonly authService = inject(AuthenticateService);
+  private readonly router = inject(Router);
 
   correo = signal('');
   contrasena = signal('');
@@ -24,10 +26,9 @@ export class LoginComponent {
     this.authService
       .login({ correo: this.correo(), contrasena: this.contrasena() })
       .subscribe({
-        next: (respuesta) => {
+        next: () => {
           this.cargando.set(false);
-          this.loginExitoso.set(true);
-          this.mensaje.set(respuesta.message);
+          this.router.navigate(['/dashboard']);
         },
         error: (err) => {
           this.cargando.set(false);
