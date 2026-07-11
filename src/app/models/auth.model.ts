@@ -9,6 +9,7 @@ export interface Usuario {
   apellido: string;
   correo: string;
   rol: string;
+  usuario_activo?: boolean;
 }
 
 export interface LoginData {

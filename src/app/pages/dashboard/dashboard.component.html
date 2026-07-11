@@ -2,8 +2,8 @@
   <div>
     <h1>ClinicApp</h1>
     <p class="saludo">
-      Hola, {{ usuario?.nombre }} {{ usuario?.apellido }}
-      <span class="rol">{{ usuario?.rol }}</span>
+      Hola, {{ usuario()?.nombre }} {{ usuario()?.apellido }}
+      <span class="rol">{{ usuario()?.rol }}</span>
     </p>
   </div>
   <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
