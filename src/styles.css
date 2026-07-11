@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+.estado {
+  color: #6b7f7a;
+}
+
+.estado.exito {
+  color: #1e7e34;
+}
+
+.estado.error {
+  background: #fdecec;
+  color: #a33a3a;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  display: inline-block;
+}

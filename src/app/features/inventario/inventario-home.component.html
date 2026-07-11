@@ -1,0 +1,114 @@
+<h2>Inventario</h2>
+
+@if (mensajeExito()) {
+  <p class="estado exito">{{ mensajeExito() }}</p>
+}
+@if (mensajeError()) {
+  <p class="estado error">{{ mensajeError() }}</p>
+}
+
+<!-- Solo el administrador ve los formularios de escritura.
+     Esto es UX, no seguridad: la seguridad real es el 403 del backend. -->
+@if (esAdministrador) {
+  <section class="formularios">
+    <!-- [formGroup] enchufa el <form> al objeto de TS;
+         formControlName enchufa cada input a su campo -->
+    <form class="card" [formGroup]="formRegistro" (ngSubmit)="onRegistrar()">
+      <h3>Registrar inventario</h3>
+
+      <label>
+        ID del lote
+        <input type="number" formControlName="id_lote" />
+      </label>
+      @if (formRegistro.controls.id_lote.touched && formRegistro.controls.id_lote.invalid) {
+        <small class="error-campo">Ingresa un entero mayor o igual a 1.</small>
+      }
+
+      <label>
+        Stock inicial
+        <input type="number" formControlName="stock_actual" />
+      </label>
+      @if (formRegistro.controls.stock_actual.touched && formRegistro.controls.stock_actual.invalid) {
+        <small class="error-campo">Ingresa un entero mayor o igual a 0.</small>
+      }
+
+      <button type="submit" [disabled]="formRegistro.invalid || procesando()">
+        {{ procesando() ? 'Procesando...' : 'Registrar' }}
+      </button>
+    </form>
+
+    <form class="card" [formGroup]="formAjuste" (ngSubmit)="onAjustar()">
+      <h3>Ajustar stock</h3>
+
+      <label>
+        ID del inventario
+        <input type="number" formControlName="id_inventario" />
+      </label>
+      @if (formAjuste.controls.id_inventario.touched && formAjuste.controls.id_inventario.invalid) {
+        <small class="error-campo">Ingresa un entero mayor o igual a 1.</small>
+      }
+
+      <label>
+        Nuevo stock
+        <input type="number" formControlName="stock_actual" />
+      </label>
+      @if (formAjuste.controls.stock_actual.touched && formAjuste.controls.stock_actual.invalid) {
+        <small class="error-campo">Ingresa un entero mayor o igual a 0.</small>
+      }
+
+      <button type="submit" [disabled]="formAjuste.invalid || procesando()">
+        {{ procesando() ? 'Procesando...' : 'Ajustar' }}
+      </button>
+    </form>
+  </section>
+}
+
+<!-- El filtro sí es para ambos roles (el GET lo permite el backend).
+     [formControl] es la variante para un control suelto, sin group. -->
+<section class="filtro">
+  <label>
+    Filtrar por ID de producto
+    <input type="number" [formControl]="filtroProducto" />
+  </label>
+  <button type="button" (click)="onFiltrar()" [disabled]="filtroProducto.invalid || cargando()">Filtrar</button>
+  <button type="button" (click)="verTodo()" [disabled]="cargando()">Ver todo</button>
+</section>
+
+@if (cargando()) {
+  <p class="estado">Cargando inventario...</p>
+}
+
+@if (!cargando()) {
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Producto</th>
+        <th>Lote</th>
+        <th>Vencimiento</th>
+        <th>Cantidad del lote</th>
+        <th>Stock actual</th>
+        <th>Proveedor</th>
+        <th>Actualizado</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (r of registros(); track r.id_inventario) {
+        <tr>
+          <td>{{ r.id_inventario }}</td>
+          <td>{{ r.producto_nombre }}</td>
+          <td>{{ r.id_lote }}</td>
+          <td>{{ r.fecha_vencimiento | date:'dd/MM/yyyy' }}</td>
+          <td>{{ r.cantidad_lote }}</td>
+          <td>{{ r.stock_actual }}</td>
+          <td>{{ r.proveedor_nombre }}</td>
+          <td>{{ r.inventario_actualizado_en | date:'dd/MM/yyyy HH:mm' }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="8" class="estado">No hay registros de inventario.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

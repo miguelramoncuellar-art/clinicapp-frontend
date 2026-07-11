@@ -1,0 +1,46 @@
+<h2>Productos</h2>
+
+@if (cargando()) {
+  <p class="estado">Cargando productos...</p>
+}
+
+@if (mensajeError()) {
+  <p class="estado error">{{ mensajeError() }}</p>
+}
+
+@if (!cargando() && !mensajeError()) {
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Categoría</th>
+        <th>Proveedor</th>
+        <th>Precio</th>
+        <th>Stock mínimo</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of productos(); track p.id_producto) {
+        <tr>
+          <td>{{ p.nombre }}</td>
+          <td>{{ p.descripcion }}</td>
+          <td>{{ p.categoria_nombre }}</td>
+          <td>{{ p.proveedor_nombre }}</td>
+          <td>{{ p.precio | currency:'COP':'symbol-narrow' }}</td>
+          <td>{{ p.stock_minimo }}</td>
+          <td>
+            <span class="badge" [class.activo]="p.producto_activo" [class.inactivo]="!p.producto_activo">
+              {{ p.producto_activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="7" class="estado">No hay productos registrados.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

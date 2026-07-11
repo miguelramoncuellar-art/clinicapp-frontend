@@ -97,14 +97,31 @@ tbody tr:nth-child(even) {
   color: #a33a3a;
 }
 
+.estado {
+  color: #6b7f7a;
+}
+
+.estado.error {
+  background: #fdecec;
+  color: #a33a3a;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.menu {
+  display: flex;
+  gap: 1rem;
+}
+
 .menu a {
-  color: #ffffff; /* antes inherit: el navegador lo pintaba morado */
   text-decoration: none;
+  color: inherit;
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
 }
 
 .menu a.activo {
-  background: rgba(255, 255, 255, 0.15); /* el negro translúcido era invisible sobre verde oscuro */
+  background: rgba(0, 0, 0, 0.08);
   font-weight: 600;
 }
