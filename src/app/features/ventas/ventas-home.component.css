@@ -1,0 +1,86 @@
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.card h3 {
+  margin: 0;
+}
+
+.linea {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #eee;
+}
+
+.linea label,
+.filtro label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.linea select,
+.linea input,
+.filtro input {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.precio-linea {
+  font-size: 0.9rem;
+  padding-bottom: 0.5rem;
+}
+
+.card button,
+.filtro button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.card button:disabled,
+.filtro button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.total {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.error-campo {
+  color: #c0392b;
+}
+
+.filtro {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.consulta table {
+  margin-top: 0.5rem;
+}

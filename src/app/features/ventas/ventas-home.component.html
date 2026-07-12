@@ -1,0 +1,137 @@
+<h2>Ventas</h2>
+
+@if (mensajeExito()) {
+  <p class="estado exito">{{ mensajeExito() }}</p>
+}
+@if (mensajeError()) {
+  <p class="estado error">{{ mensajeError() }}</p>
+}
+
+<!-- Rol INVERTIDO respecto a inventario: aquí el formulario es para ambos
+     roles (el POST lo permite el backend) y la LISTA es solo del admin.
+     Como siempre: esto es UX, la seguridad real es el 403 del backend. -->
+<form class="card" [formGroup]="formVenta" (ngSubmit)="onRegistrar()">
+  <h3>Registrar venta</h3>
+
+  <!-- formArrayName enchufa el arreglo; cada línea se enchufa
+       por su posición con [formGroupName]="i" -->
+  <div formArrayName="items">
+    @for (item of items.controls; track item; let i = $index) {
+      <div class="linea" [formGroupName]="i">
+        <label>
+          Producto
+          <select formControlName="id_producto">
+            <!-- [ngValue] conserva el number; con value el DOM lo volvería string -->
+            <option [ngValue]="null" disabled>Selecciona un producto</option>
+            @for (p of productosActivos(); track p.id_producto) {
+              <option [ngValue]="p.id_producto">{{ p.nombre }}</option>
+            }
+          </select>
+          @if (item.get('id_producto')?.touched && item.get('id_producto')?.invalid) {
+            <small class="error-campo">Selecciona un producto.</small>
+          }
+        </label>
+
+        <label>
+          Cantidad
+          <input type="number" formControlName="cantidad" />
+          @if (item.get('cantidad')?.touched && item.get('cantidad')?.invalid) {
+            <small class="error-campo">Ingresa un entero mayor o igual a 1.</small>
+          }
+        </label>
+
+        <span class="precio-linea">Precio: {{ precioProducto(i) }}</span>
+
+        <button type="button" (click)="eliminarItem(i)" [disabled]="items.length === 1">
+          Quitar
+        </button>
+      </div>
+    }
+  </div>
+
+  <div class="acciones">
+    <button type="button" (click)="agregarItem()">Agregar producto</button>
+    <p class="total">Total estimado: $ {{ totalEstimado() | number:'1.2-2' }}</p>
+  </div>
+
+  <button type="submit" [disabled]="formVenta.invalid || procesando()">
+    {{ procesando() ? 'Procesando...' : 'Registrar venta' }}
+  </button>
+</form>
+
+<!-- Búsqueda por ID: la única lectura permitida al operador -->
+<section class="filtro">
+  <label>
+    Buscar venta por ID
+    <input type="number" [formControl]="busquedaId" />
+  </label>
+  <button type="button" (click)="onBuscar()" [disabled]="busquedaId.invalid">Buscar</button>
+  <button type="button" (click)="limpiarBusqueda()">Limpiar</button>
+</section>
+
+@if (ventaConsultada(); as venta) {
+  <div class="card consulta">
+    <h3>Venta #{{ venta.id_venta }}</h3>
+    <p>
+      {{ venta.fecha | date:'dd/MM/yyyy HH:mm' }} —
+      Vendedor: {{ venta.usuario_nombre }} {{ venta.usuario_apellido }} —
+      Total: $ {{ venta.total }}
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio unitario</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (d of venta.detalles; track d.id_detalle) {
+          <tr>
+            <td>{{ d.producto }}</td>
+            <td>{{ d.cantidad }}</td>
+            <td>$ {{ d.precio_unitario }}</td>
+            <td>$ {{ d.subtotal }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
+
+<!-- Lista completa: SOLO administrador (el operador recibiría 403) -->
+@if (esAdministrador) {
+  <h3>Historial de ventas</h3>
+
+  @if (cargando()) {
+    <p class="estado">Cargando ventas...</p>
+  }
+
+  @if (!cargando()) {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Fecha</th>
+          <th>Vendedor</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (v of ventas(); track v.id_venta) {
+          <tr>
+            <td>{{ v.id_venta }}</td>
+            <td>{{ v.fecha | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ v.usuario_nombre }} {{ v.usuario_apellido }}</td>
+            <td>$ {{ v.total }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="estado">No hay ventas registradas.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+}
