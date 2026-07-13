@@ -4,6 +4,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ProductosHomeComponent } from './features/productos/productos-home.component';
 import { authGuard } from './guards/auth.guard';
 import { InventarioHomeComponent } from './features/inventario/inventario-home.component';
+import { VentasHomeComponent } from './features/ventas/ventas-home.component';
 
 
 export const routes: Routes = [
@@ -16,6 +17,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'productos', pathMatch: 'full' },
       { path: 'productos', component: ProductosHomeComponent },
       { path: 'inventario', component: InventarioHomeComponent },
+      { path: 'ventas', component: VentasHomeComponent },
     ],
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
