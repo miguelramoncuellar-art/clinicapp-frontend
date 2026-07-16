@@ -1,0 +1,124 @@
+<section class="reportes">
+  <header class="encabezado">
+    <h2>Reportes</h2>
+    <p class="subtitulo">Indicadores del negocio basados en las ventas registradas.</p>
+  </header>
+
+  @if (mensajeError()) {
+    <p class="estado error">{{ mensajeError() }}</p>
+  }
+
+  <!-- date:'...':'UTC' — las columnas DATE llegan ancladas a medianoche; sin
+       fijar la zona, el pipe formatea en hora local y en UTC-5 (Bogotá)
+       mostraría el día ANTERIOR. Con 'UTC' el día es siempre el correcto. -->
+  <div class="tarjetas">
+    @if (reporteDiario(); as diario) {
+      <article class="tarjeta">
+        <h3>Hoy</h3>
+        <p class="cifra">{{ diario.ingresos_totales | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</p>
+        <p class="detalle">{{ diario.total_ventas }} ventas · promedio {{ diario.promedio_por_venta | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</p>
+        <p class="detalle fecha">{{ diario.fecha | date: 'dd/MM/yyyy' : 'UTC' }}</p>
+      </article>
+    }
+    @if (reporteSemanal(); as semanal) {
+      <article class="tarjeta">
+        <h3>Esta semana</h3>
+        <p class="cifra">{{ semanal.ingresos_totales | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</p>
+        <p class="detalle">{{ semanal.total_ventas }} ventas · promedio {{ semanal.promedio_por_venta | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</p>
+        <p class="detalle fecha">{{ semanal.semana_inicio | date: 'dd/MM' : 'UTC' }} – {{ semanal.semana_fin | date: 'dd/MM/yyyy' : 'UTC' }}</p>
+      </article>
+    }
+    @if (reporteMensual(); as mensual) {
+      <article class="tarjeta">
+        <h3>Este mes</h3>
+        <p class="cifra">{{ mensual.ingresos_totales | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</p>
+        <p class="detalle">{{ mensual.total_ventas }} ventas · promedio {{ mensual.promedio_por_venta | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</p>
+        <!-- "mes" ya viene formateado por TO_CHAR desde el backend -->
+        <p class="detalle fecha">{{ mensual.mes }}</p>
+      </article>
+    }
+  </div>
+
+  <form class="filtros" [formGroup]="formulario" (ngSubmit)="buscar()">
+    <label>
+      Desde
+      <input type="date" formControlName="fecha_inicio" />
+    </label>
+    <label>
+      Hasta
+      <input type="date" formControlName="fecha_fin" />
+    </label>
+    <button type="submit" [disabled]="formulario.invalid || cargando()">
+      {{ cargando() ? 'Generando…' : 'Generar reporte' }}
+    </button>
+  </form>
+
+  <!-- El error cross-field vive en el GRUPO, por eso se lee con
+       formulario.hasError() y no sobre un control individual -->
+  @if (formulario.hasError('rangoInvalido')) {
+    <p class="estado error">La fecha inicial no puede ser posterior a la fecha final.</p>
+  }
+
+  <div class="paneles">
+    <section class="panel">
+      <h3>Ventas por día</h3>
+      <table class="tabla">
+        <thead>
+          <tr><th>Día</th><th>Ventas</th><th>Ingresos</th></tr>
+        </thead>
+        <tbody>
+          @for (fila of ventasPorDia(); track fila.dia) {
+            <tr>
+              <td>{{ fila.dia | date: 'dd/MM/yyyy' : 'UTC' }}</td>
+              <td>{{ fila.total_ventas }}</td>
+              <td>{{ fila.ingresos | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+            </tr>
+          } @empty {
+            <tr><td colspan="3" class="vacio">Sin ventas en el rango seleccionado.</td></tr>
+          }
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h3>Productos más vendidos</h3>
+      <table class="tabla">
+        <thead>
+          <tr><th>#</th><th>Producto</th><th>Unidades</th><th>Ingresos</th></tr>
+        </thead>
+        <tbody>
+          @for (prod of productosMasVendidos(); track prod.id_producto; let i = $index) {
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{ prod.producto_nombre }}</td>
+              <td>{{ prod.unidades_vendidas }}</td>
+              <td>{{ prod.ingresos_generados | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+            </tr>
+          } @empty {
+            <tr><td colspan="4" class="vacio">Sin productos vendidos en el rango.</td></tr>
+          }
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h3>Ventas por usuario (mes actual)</h3>
+      <table class="tabla">
+        <thead>
+          <tr><th>Usuario</th><th>Ventas</th><th>Ingresos</th></tr>
+        </thead>
+        <tbody>
+          @for (u of ventasPorUsuario(); track u.id_usuario) {
+            <tr>
+              <td>{{ u.usuario_nombre }} {{ u.usuario_apellido }}</td>
+              <td>{{ u.total_ventas }}</td>
+              <td>{{ u.ingresos_generados | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+            </tr>
+          } @empty {
+            <tr><td colspan="3" class="vacio">Sin ventas registradas este mes.</td></tr>
+          }
+        </tbody>
+      </table>
+    </section>
+  </div>
+</section>
