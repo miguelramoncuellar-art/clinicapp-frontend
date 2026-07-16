@@ -11,6 +11,11 @@
     <a routerLink="productos" routerLinkActive="activo">Productos</a>
     <a routerLink="inventario" routerLinkActive="activo">Inventario</a>
     <a routerLink="ventas" routerLinkActive="activo">Ventas</a>
+    <!-- Solo-admin: información financiera. Mismo criterio que el backend
+         (verifyRole(['administrador']) en todas las rutas de /reportes). -->
+    @if (esAdministrador()) {
+      <a routerLink="reportes" routerLinkActive="activo">Reportes</a>
+    }
   </nav>
 
   <button class="btn-logout" (click)="logout()">Cerrar sesión</button>

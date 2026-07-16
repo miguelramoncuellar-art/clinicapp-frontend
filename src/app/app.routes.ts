@@ -5,6 +5,7 @@ import { ProductosHomeComponent } from './features/productos/productos-home.comp
 import { authGuard } from './guards/auth.guard';
 import { InventarioHomeComponent } from './features/inventario/inventario-home.component';
 import { VentasHomeComponent } from './features/ventas/ventas-home.component';
+import { ReportesHomeComponent } from './features/reportes/reportes-home.component';
 
 
 export const routes: Routes = [
@@ -18,6 +19,9 @@ export const routes: Routes = [
       { path: 'productos', component: ProductosHomeComponent },
       { path: 'inventario', component: InventarioHomeComponent },
       { path: 'ventas', component: VentasHomeComponent },
+      // Hereda authGuard del padre. OJO: el guard valida SESIÓN, no ROL —
+      // la restricción de administrador la aplica el backend (403).
+      { path: 'reportes', component: ReportesHomeComponent },
     ],
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
