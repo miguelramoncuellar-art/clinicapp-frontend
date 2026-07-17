@@ -11,10 +11,14 @@
     <a routerLink="productos" routerLinkActive="activo">Productos</a>
     <a routerLink="inventario" routerLinkActive="activo">Inventario</a>
     <a routerLink="ventas" routerLinkActive="activo">Ventas</a>
-    <!-- Solo-admin: información financiera. Mismo criterio que el backend
-         (verifyRole(['administrador']) en todas las rutas de /reportes). -->
+    <!-- Solo-admin: mismo criterio que el backend
+         (verifyRole(['administrador']) en las rutas de /reportes y
+         /usuarios). UN solo @if para ambos links: la condición de
+         visibilidad es la misma, y si algún día cambia, se cambia en
+         UN único lugar. -->
     @if (esAdministrador()) {
       <a routerLink="reportes" routerLinkActive="activo">Reportes</a>
+      <a routerLink="usuarios" routerLinkActive="activo">Usuarios</a>
     }
   </nav>
 
