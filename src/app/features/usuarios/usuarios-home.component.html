@@ -1,0 +1,89 @@
+<!-- Módulo solo-admin. El link del menú se oculta al operador (Fase 4)
+     y la ruta quedará tras el adminGuard (Fase 5), pero la seguridad
+     REAL vive en el backend: verifyRole(['administrador']) en cada
+     endpoint. Todo lo de aquí es UX. -->
+<section class="usuarios">
+  <h2>Usuarios</h2>
+  <p class="descripcion">
+    Administra el personal del sistema: activa o desactiva cuentas sin
+    eliminar su historial de ventas.
+  </p>
+
+  @if (mensajeExito()) {
+    <p class="estado exito">{{ mensajeExito() }}</p>
+  }
+  @if (mensajeError()) {
+    <p class="estado error">{{ mensajeError() }}</p>
+  }
+
+  @if (cargando()) {
+    <p class="estado cargando">Cargando usuarios…</p>
+  } @else {
+    <table class="tabla-usuarios">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Creado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- track por id_usuario: clave estable y única. Tras el merge
+             local, Angular reutiliza el <tr> de cada fila en vez de
+             recrear la tabla entera. -->
+        @for (u of usuarios(); track u.id_usuario) {
+          <tr>
+            <td>{{ u.id_usuario }}</td>
+            <td>{{ u.nombre }} {{ u.apellido }}</td>
+            <td>{{ u.correo }}</td>
+            <!-- Capitalización por CSS, solo visual: las COMPARACIONES
+                 de rol siguen siendo con toLowerCase, como siempre. -->
+            <td class="rol">{{ u.rol }}</td>
+            <td>
+              <span
+                class="badge"
+                [class.activo]="u.usuario_activo"
+                [class.inactivo]="!u.usuario_activo"
+              >
+                {{ u.usuario_activo ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <!-- usuario_creado_en es TIMESTAMP completo: pipe date NORMAL
+                 (hora local). El truco del 'UTC' era exclusivo de las
+                 columnas DATE de reportes. -->
+            <td>{{ u.usuario_creado_en | date: 'mediumDate' }}</td>
+            <td>
+              <!-- Deshabilitado si: es MI fila (espejo del 400 del
+                   backend) o si ESTA fila tiene un PATCH en vuelo. -->
+              <button
+                class="btn-toggle"
+                [class.btn-desactivar]="u.usuario_activo"
+                [class.btn-activar]="!u.usuario_activo"
+                [disabled]="
+                  esUsuarioActual(u.id_usuario) ||
+                  idProcesando() === u.id_usuario
+                "
+                [attr.title]="
+                  esUsuarioActual(u.id_usuario)
+                    ? 'No puedes desactivar tu propia cuenta.'
+                    : null
+                "
+                (click)="cambiarEstado(u)"
+              >
+                {{ u.usuario_activo ? 'Desactivar' : 'Activar' }}
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7">No hay usuarios registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>
