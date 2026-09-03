@@ -125,3 +125,36 @@ tbody tr:nth-child(even) {
   background: rgba(0, 0, 0, 0.08);
   font-weight: 600;
 }
+
+/* --- Agregado: botón "Nuevo producto" e ícono de editar --- */
+
+.boton-nuevo {
+  display: inline-block;
+  text-decoration: none;
+  background: #104a3d;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.boton-nuevo:hover {
+  background: #1b7a63;
+}
+
+.icono-editar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #104a3d;
+  text-decoration: none;
+  padding: 0.25rem;
+  border-radius: 6px;
+}
+
+.icono-editar:hover {
+  background: #e3f4ee;
+  color: #1b7a63;
+}

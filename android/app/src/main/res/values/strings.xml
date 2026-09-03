@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ClinicApp</string>
+    <string name="title_activity_main">ClinicApp</string>
+    <string name="package_name">com.clinicapp.app</string>
+    <string name="custom_url_scheme">com.clinicapp.app</string>
+</resources>

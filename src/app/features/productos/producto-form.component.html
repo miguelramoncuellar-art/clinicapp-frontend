@@ -1,0 +1,52 @@
+<main class="producto-form-page">
+  <section class="producto-form-card">
+    <h2>{{ modoEdicion ? 'Editar producto' : 'Nuevo producto' }}</h2>
+
+    @if (cargandoDatos()) {
+      <p class="estado">Cargando datos...</p>
+    }
+
+    @if (!cargandoDatos()) {
+      <label for="nombre">Nombre</label>
+      <input id="nombre" type="text" placeholder="Acetaminofén 500mg" [(ngModel)]="nombre" />
+
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" placeholder="Descripción opcional" [(ngModel)]="descripcion"></textarea>
+
+      <label for="precio">Precio</label>
+      <input id="precio" type="number" min="0" step="0.01" placeholder="0.00" [(ngModel)]="precio" />
+
+      <label for="stockMinimo">Stock mínimo</label>
+      <input id="stockMinimo" type="number" min="0" placeholder="0" [(ngModel)]="stockMinimo" />
+
+      <label for="categoria">Categoría</label>
+      <select id="categoria" [(ngModel)]="idCategoria">
+        <option [ngValue]="null">Selecciona una categoría</option>
+        @for (categoria of categorias(); track categoria.id_categoria) {
+          <option [ngValue]="categoria.id_categoria">{{ categoria.nombre }}</option>
+        }
+      </select>
+
+      <label for="proveedor">Proveedor (opcional)</label>
+      <select id="proveedor" [(ngModel)]="idProveedor">
+        <option [ngValue]="null">Sin proveedor</option>
+        @for (proveedor of proveedores(); track proveedor.id_proveedor) {
+          <option [ngValue]="proveedor.id_proveedor">{{ proveedor.nombre }}</option>
+        }
+      </select>
+
+      <div class="acciones">
+        <button type="button" class="secundario" (click)="onCancelar()" [disabled]="guardando()">
+          Cancelar
+        </button>
+        <button type="button" (click)="onSubmit()" [disabled]="guardando()">
+          {{ guardando() ? 'Guardando...' : (modoEdicion ? 'Guardar cambios' : 'Crear producto') }}
+        </button>
+      </div>
+
+      @if (mensaje()) {
+        <p class="mensaje error">{{ mensaje() }}</p>
+      }
+    }
+  </section>
+</main>

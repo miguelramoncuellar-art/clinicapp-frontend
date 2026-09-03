@@ -1,5 +1,9 @@
 <h2>Productos</h2>
 
+@if (esAdministrador) {
+  <a routerLink="/dashboard/productos/nuevo" class="boton-nuevo">+ Nuevo producto</a>
+}
+
 @if (cargando()) {
   <p class="estado">Cargando productos...</p>
 }
@@ -19,6 +23,9 @@
         <th>Precio</th>
         <th>Stock mínimo</th>
         <th>Estado</th>
+        @if (esAdministrador) {
+          <th></th>
+        }
       </tr>
     </thead>
     <tbody>
@@ -35,10 +42,25 @@
               {{ p.producto_activo ? 'Activo' : 'Inactivo' }}
             </span>
           </td>
+          @if (esAdministrador) {
+            <td>
+              <a
+                [routerLink]="['/dashboard/productos', p.id_producto, 'editar']"
+                class="icono-editar"
+                aria-label="Editar producto"
+                title="Editar producto"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                </svg>
+              </a>
+            </td>
+          }
         </tr>
       } @empty {
         <tr>
-          <td colspan="7" class="estado">No hay productos registrados.</td>
+          <td [attr.colspan]="esAdministrador ? 8 : 7" class="estado">No hay productos registrados.</td>
         </tr>
       }
     </tbody>

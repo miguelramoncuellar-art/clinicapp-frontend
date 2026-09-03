@@ -12,3 +12,13 @@ export interface Producto {
   id_proveedor: number;
   proveedor_nombre: string;
 }
+
+
+export interface ProductoInput {
+  nombre: string;
+  descripcion?: string | null;
+  precio: number;
+  stock_minimo: number;
+  id_categoria: number;
+  id_proveedor?: number | null;
+}

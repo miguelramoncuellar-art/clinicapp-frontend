@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ProductosHomeComponent } from './features/productos/productos-home.component';
+import { ProductoFormComponent } from './features/productos/producto-form.component';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 import { InventarioHomeComponent } from './features/inventario/inventario-home.component';
@@ -19,6 +20,10 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'productos', pathMatch: 'full' },
       { path: 'productos', component: ProductosHomeComponent },
+      // Crear/editar producto exige rol administrador en el backend
+      // (POST/PUT /productos), así que el guard es coherente con eso.
+      { path: 'productos/nuevo', component: ProductoFormComponent, canActivate: [adminGuard] },
+      { path: 'productos/:id_producto/editar', component: ProductoFormComponent, canActivate: [adminGuard] },
       { path: 'inventario', component: InventarioHomeComponent },
       { path: 'ventas', component: VentasHomeComponent },
       // Solo-admin: cadena de guards en cascada — el authGuard del padre
