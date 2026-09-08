@@ -47,3 +47,17 @@ select {
 .estado {
   margin-top: 1rem;
 }
+
+.fila-con-boton {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.fila-con-boton input {
+  flex: 1;
+}
+
+.boton-escanear {
+  white-space: nowrap;
+  padding: 0.5rem 0.75rem;
+}

@@ -8,7 +8,17 @@
 
     @if (!cargandoDatos()) {
       <label for="nombre">Nombre</label>
-      <input id="nombre" type="text" placeholder="Acetaminofén 500mg" [(ngModel)]="nombre" />
+      <div class="fila-con-boton">
+        <input id="nombre" type="text" placeholder="Acetaminofén 500mg" [(ngModel)]="nombre" />
+        <button
+          type="button"
+          class="boton-escanear"
+          (click)="onEscanear()"
+          [disabled]="barcodeScanner.scanning()"
+        >
+          {{ barcodeScanner.scanning() ? 'Escaneando...' : '📷 Escanear' }}
+        </button>
+      </div>
 
       <label for="descripcion">Descripción</label>
       <textarea id="descripcion" placeholder="Descripción opcional" [(ngModel)]="descripcion"></textarea>

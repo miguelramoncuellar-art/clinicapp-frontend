@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductosService } from '../../services/productos.service';
 import { CategoriasService } from '../../services/categorias.service';
 import { ProveedoresService } from '../../services/proveedores.service';
+import { BarcodeScannerService } from '../../services/barcode-scanner.service';
 import { Categoria } from '../../models/categoria.model';
 import { Proveedor } from '../../models/proveedor.model';
 
@@ -19,6 +20,7 @@ export class ProductoFormComponent implements OnInit {
   private readonly proveedoresService = inject(ProveedoresService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  readonly barcodeScanner = inject(BarcodeScannerService);
 
   // Si hay id_producto en la ruta, estamos editando; si no, creando.
   // Se lee una sola vez: la ruta no cambia sin recrear el componente completo.
@@ -74,6 +76,16 @@ export class ProductoFormComponent implements OnInit {
       });
     } else {
       this.cargandoDatos.set(false);
+    }
+  }
+
+  // Demo rápida (deuda técnica anotada): el esquema de productos no tiene
+  // todavía un campo codigo_barras dedicado, así que por ahora el resultado
+  // del escaneo cae en "nombre". A futuro debería ir a su propio campo.
+  async onEscanear(): Promise<void> {
+    const resultado = await this.barcodeScanner.scan();
+    if (resultado) {
+      this.nombre.set(resultado);
     }
   }
 
