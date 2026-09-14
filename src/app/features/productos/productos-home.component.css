@@ -126,7 +126,7 @@ tbody tr:nth-child(even) {
   font-weight: 600;
 }
 
-/* --- Agregado: botón "Nuevo producto" e ícono de editar --- */
+/* --- Botón "Nuevo producto" e ícono de editar --- */
 
 .boton-nuevo {
   display: inline-block;
@@ -148,6 +148,7 @@ tbody tr:nth-child(even) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.4rem;
   color: #104a3d;
   text-decoration: none;
   padding: 0.25rem;
@@ -157,4 +158,143 @@ tbody tr:nth-child(even) {
 .icono-editar:hover {
   background: #e3f4ee;
   color: #1b7a63;
+}
+
+/* En escritorio basta el ícono; el texto solo aparece en móvil */
+.texto-editar {
+  display: none;
+}
+
+/* ============================================================
+   RESPONSIVE — la tabla se convierte en tarjetas en pantallas
+   angostas. El HTML sigue siendo <table>: solo cambia cómo se
+   pinta, así que no se pierde semántica ni accesibilidad.
+   ============================================================ */
+
+@media (max-width: 768px) {
+  table {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  /* Los encabezados se ocultan visualmente pero siguen existiendo
+     para lectores de pantalla. */
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  table,
+  tbody,
+  tbody tr,
+  tbody td {
+    display: block;
+    width: 100%;
+  }
+
+  tbody tr {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(16, 74, 61, 0.10);
+    margin-bottom: 1rem;
+    padding: 0.35rem 0;
+    overflow: hidden;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #ffffff;
+  }
+
+  /* Etiqueta arriba, valor abajo a ancho completo: evita que los
+     textos largos (proveedores, descripciones) se corten. */
+  tbody td {
+    display: block;
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f0f5f3;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  tbody td:last-child {
+    border-bottom: none;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #6b7f7a;
+    margin-bottom: 0.15rem;
+  }
+
+  /* El nombre del producto encabeza la tarjeta, sin etiqueta */
+  tbody td.celda-titulo {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #104a3d;
+    padding-top: 0.85rem;
+    line-height: 1.3;
+  }
+
+  tbody td.celda-titulo::before {
+    content: none;
+  }
+
+  /* Botón de editar: blanco de toque cómodo, ancho completo */
+  tbody td.celda-acciones {
+    padding: 0.75rem 1rem;
+  }
+
+  tbody td.celda-acciones::before {
+    content: none;
+  }
+
+  .icono-editar {
+    width: 100%;
+    justify-content: center;
+    background: #e3f4ee;
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .texto-editar {
+    display: inline;
+  }
+
+  /* Estado vacío */
+  tbody tr.fila-vacia {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  tbody td.sin-datos {
+    text-align: center;
+    border-bottom: none;
+  }
+
+  tbody td.sin-datos::before {
+    content: none;
+  }
+
+  .boton-nuevo {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
 }

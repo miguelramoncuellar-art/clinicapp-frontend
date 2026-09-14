@@ -31,19 +31,19 @@
     <tbody>
       @for (p of productos(); track p.id_producto) {
         <tr>
-          <td>{{ p.nombre }}</td>
-          <td>{{ p.descripcion }}</td>
-          <td>{{ p.categoria_nombre }}</td>
-          <td>{{ p.proveedor_nombre }}</td>
-          <td>{{ p.precio | currency:'COP':'symbol-narrow' }}</td>
-          <td>{{ p.stock_minimo }}</td>
-          <td>
+          <td data-label="Nombre" class="celda-titulo">{{ p.nombre }}</td>
+          <td data-label="Descripción">{{ p.descripcion }}</td>
+          <td data-label="Categoría">{{ p.categoria_nombre }}</td>
+          <td data-label="Proveedor">{{ p.proveedor_nombre }}</td>
+          <td data-label="Precio">{{ p.precio | currency:'COP':'symbol-narrow' }}</td>
+          <td data-label="Stock mínimo">{{ p.stock_minimo }}</td>
+          <td data-label="Estado">
             <span class="badge" [class.activo]="p.producto_activo" [class.inactivo]="!p.producto_activo">
               {{ p.producto_activo ? 'Activo' : 'Inactivo' }}
             </span>
           </td>
           @if (esAdministrador) {
-            <td>
+            <td data-label="Acciones" class="celda-acciones">
               <a
                 [routerLink]="['/dashboard/productos', p.id_producto, 'editar']"
                 class="icono-editar"
@@ -54,13 +54,14 @@
                   <path d="M12 20h9" />
                   <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
                 </svg>
+                <span class="texto-editar">Editar</span>
               </a>
             </td>
           }
         </tr>
       } @empty {
-        <tr>
-          <td [attr.colspan]="esAdministrador ? 8 : 7" class="estado">No hay productos registrados.</td>
+        <tr class="fila-vacia">
+          <td [attr.colspan]="esAdministrador ? 8 : 7" class="estado sin-datos">No hay productos registrados.</td>
         </tr>
       }
     </tbody>
