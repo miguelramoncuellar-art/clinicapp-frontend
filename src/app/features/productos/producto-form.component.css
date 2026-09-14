@@ -12,16 +12,43 @@
   gap: 0.25rem;
 }
 
+.producto-form-card h2 {
+  color: #104a3d;
+  margin-top: 0;
+}
+
 label {
   margin-top: 0.75rem;
   font-weight: 600;
+  color: #104a3d;
+  font-size: 0.9rem;
 }
 
 input,
 textarea,
 select {
-  padding: 0.5rem;
+  padding: 0.6rem 0.7rem;
   font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid #cddfda;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #1a2b27;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #1b7a63;
+  box-shadow: 0 0 0 3px rgba(27, 122, 99, 0.15);
+}
+
+textarea {
+  min-height: 5rem;
+  resize: vertical;
 }
 
 .acciones {
@@ -32,20 +59,48 @@ select {
 
 .acciones button {
   flex: 1;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #104a3d;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.acciones button:hover:not(:disabled) {
+  background: #1b7a63;
+}
+
+.acciones button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .secundario {
   background: transparent;
-  border: 1px solid currentColor;
+  border: 1px solid #104a3d;
+  color: #104a3d;
+}
+
+.acciones button.secundario:hover:not(:disabled) {
+  background: #e3f4ee;
+  color: #104a3d;
 }
 
 .mensaje.error {
-  color: crimson;
+  color: #a33a3a;
+  background: #fdecec;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
   margin-top: 0.75rem;
 }
 
 .estado {
   margin-top: 1rem;
+  color: #6b7f7a;
 }
 
 .fila-con-boton {
@@ -59,5 +114,67 @@ select {
 
 .boton-escanear {
   white-space: nowrap;
-  padding: 0.5rem 0.75rem;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  border: 1px solid #104a3d;
+  border-radius: 8px;
+  background: #e3f4ee;
+  color: #104a3d;
+  cursor: pointer;
+}
+
+.boton-escanear:hover:not(:disabled) {
+  background: #cfe9e0;
+}
+
+.boton-escanear:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   RESPONSIVE — en móvil el botón de escanear no cabe al lado
+   del input, así que se apila debajo a ancho completo.
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .producto-form-page {
+    padding: 1rem;
+  }
+
+  /* Input arriba, botón debajo: el texto "Escaneando..." no
+     tiene espacio suficiente en una fila de ~390px. */
+  .fila-con-boton {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .boton-escanear {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  /* Los botones de acción también se apilan: dos botones a la
+     mitad del ancho quedan muy justos para el dedo. */
+  .acciones {
+    flex-direction: column-reverse;
+    gap: 0.6rem;
+  }
+
+  .acciones button {
+    width: 100%;
+    padding: 0.8rem 1rem;
+  }
+
+  /* Evita el zoom automático de iOS al enfocar un campo
+     (se dispara con fuentes menores a 16px). */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }

@@ -264,6 +264,7 @@ tbody tr:nth-child(even) {
 
   .icono-editar {
     width: 100%;
+    box-sizing: border-box;
     justify-content: center;
     background: #e3f4ee;
     padding: 0.65rem 1rem;
@@ -293,6 +294,7 @@ tbody tr:nth-child(even) {
   .boton-nuevo {
     display: block;
     width: 100%;
+    box-sizing: border-box;
     text-align: center;
     padding: 0.75rem 1rem;
     font-size: 1rem;

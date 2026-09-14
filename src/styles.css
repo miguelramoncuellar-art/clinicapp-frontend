@@ -1,3 +1,11 @@
+/* El padding se cuenta dentro del width, no se suma por fuera.
+   Sin esto, cualquier elemento con width:100% y padding provoca
+   scroll horizontal en movil. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 .estado {
   color: #6b7f7a;
 }
