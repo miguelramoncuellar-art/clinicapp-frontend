@@ -90,6 +90,14 @@ export class InventarioHomeComponent implements OnInit {
     this.cargarInventario();
   }
 
+  // Un registro está en stock bajo cuando su existencia actual quedó
+  // en el umbral definido para el producto o por debajo. La comparación
+  // usa <= y no <: si el mínimo es 10 y quedan exactamente 10, ya toca
+  // reponer.
+  esStockBajo(registro: Inventario): boolean {
+    return registro.stock_actual <= registro.stock_minimo;
+  }
+
   onRegistrar(): void {
     if (this.formRegistro.invalid || this.procesando()) return;
     this.limpiarMensajes();

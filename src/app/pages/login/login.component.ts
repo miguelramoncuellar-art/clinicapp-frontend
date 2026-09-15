@@ -19,6 +19,14 @@ export class LoginComponent {
   loginExitoso = signal(false);
   cargando = signal(false);
 
+  // Controla si la contraseña se muestra en texto plano. El input
+  // alterna entre type="text" y type="password" según este valor.
+  contrasenaVisible = signal(false);
+
+  alternarContrasena(): void {
+    this.contrasenaVisible.update((visible) => !visible);
+  }
+
   onSubmit(): void {
     this.mensaje.set('');
     this.cargando.set(true);

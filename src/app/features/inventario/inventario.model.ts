@@ -11,7 +11,8 @@ export interface Inventario {
   cantidad_lote: number;             // alias de l.cantidad
   id_producto: number;
   producto_nombre: string;           // alias de p.nombre
-  precio: string;                    // NUMERIC de PostgreSQL viaja como string (ya lo conoces)
+  precio: string;   
+  stock_minimo: number;              // NUMERIC de PostgreSQL viaja como string (ya lo conoces)
   id_proveedor: number;
   proveedor_nombre: string;          // alias de pr.nombre
 }

@@ -86,3 +86,39 @@ button:disabled {
   background: #fdecec;
   color: #a33a3a;
 }
+
+/* --- Campo de contraseña con botón de mostrar/ocultar --- */
+
+.campo-contrasena {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* El input ocupa todo el ancho; el padding derecho reserva el
+   espacio del botón para que el texto no quede debajo del ícono. */
+.campo-contrasena input {
+  width: 100%;
+  padding-right: 2.75rem;
+  margin-bottom: 0;
+}
+
+.boton-ojo {
+  position: absolute;
+  right: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #6b7f7a;
+  cursor: pointer;
+}
+
+.boton-ojo:hover {
+  background: #e3f4ee;
+  color: #104a3d;
+}

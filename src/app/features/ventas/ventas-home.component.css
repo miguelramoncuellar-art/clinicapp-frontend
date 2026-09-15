@@ -1,7 +1,8 @@
 .card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid #cddfda;
+  border-radius: 12px;
   padding: 1rem;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -10,6 +11,8 @@
 
 .card h3 {
   margin: 0;
+  color: #104a3d;
+  font-size: 1rem;
 }
 
 .linea {
@@ -18,7 +21,7 @@
   gap: 0.75rem;
   flex-wrap: wrap;
   padding: 0.5rem 0;
-  border-bottom: 1px dashed #eee;
+  border-bottom: 1px dashed #e3ece9;
 }
 
 .linea label,
@@ -27,27 +30,63 @@
   flex-direction: column;
   gap: 0.25rem;
   font-size: 0.9rem;
+  color: #104a3d;
+  font-weight: 600;
 }
 
 .linea select,
 .linea input,
 .filtro input {
-  padding: 0.4rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #cddfda;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.linea select:focus,
+.linea input:focus,
+.filtro input:focus {
+  outline: none;
+  border-color: #1b7a63;
+  box-shadow: 0 0 0 3px rgba(27, 122, 99, 0.15);
 }
 
 .precio-linea {
   font-size: 0.9rem;
   padding-bottom: 0.5rem;
+  color: #6b7f7a;
 }
 
 .card button,
 .filtro button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
+  padding: 0.55rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #104a3d;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
+}
+
+.card button:hover:not(:disabled),
+.filtro button:hover:not(:disabled) {
+  background: #1b7a63;
+}
+
+.card button.secundario,
+.filtro button.secundario {
+  background: transparent;
+  border-color: #104a3d;
+  color: #104a3d;
+}
+
+.card button.secundario:hover:not(:disabled),
+.filtro button.secundario:hover:not(:disabled) {
+  background: #e3f4ee;
+  color: #104a3d;
 }
 
 .card button:disabled,
@@ -66,12 +105,15 @@
 
 .total {
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.05rem;
+  color: #104a3d;
 }
 
 .error-campo {
   color: #c0392b;
+  font-size: 0.8rem;
+  font-weight: 400;
 }
 
 .filtro {
@@ -81,6 +123,321 @@
   margin-bottom: 1rem;
 }
 
+.filtro-acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.resumen-venta {
+  margin: 0;
+  color: #6b7f7a;
+  font-size: 0.9rem;
+}
+
 .consulta table {
   margin-top: 0.5rem;
+}
+
+.estado {
+  color: #6b7f7a;
+}
+
+.estado.exito {
+  background: #e3f4ee;
+  color: #14604e;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+}
+
+.estado.error {
+  background: #fdecec;
+  color: #a33a3a;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+}
+
+h3 {
+  color: #104a3d;
+}
+
+/* --- Tablas (faltaban: usaban los defaults del navegador) --- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(16, 74, 61, 0.12);
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+thead {
+  background: #e3f4ee;
+  color: #104a3d;
+}
+
+th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+  background: #f6faf9;
+}
+
+/* Los montos y cantidades alineados a la derecha, con cifras de
+   ancho fijo para que las columnas de números queden parejas. */
+td.celda-monto,
+.consulta td:nth-child(2),
+.consulta td:nth-child(3),
+.consulta th:nth-child(2),
+.consulta th:nth-child(3),
+td.celda-id {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+th:last-child {
+  text-align: right;
+}
+
+td.celda-monto {
+  font-weight: 600;
+  color: #104a3d;
+}
+
+td.celda-id {
+  color: #6b7f7a;
+  font-size: 0.85rem;
+}
+
+/* La tabla dentro de la tarjeta de consulta no necesita su propia
+   sombra: ya está dentro de un contenedor con borde. */
+.consulta table {
+  box-shadow: none;
+  border: 1px solid #e3ece9;
+}
+
+/* ============================================================
+   RESPONSIVE — mismo patrón que inventario: las tablas se
+   convierten en tarjetas y los formularios pasan a una columna.
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* Cada línea de la venta se apila: select, cantidad, precio y
+     el botón de quitar, en vez de competir por el ancho. */
+  .linea {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+  }
+
+  .linea select,
+  .linea input {
+    width: 100%;
+    font-size: 16px;   /* evita el zoom automático al enfocar en iOS */
+  }
+
+  .precio-linea {
+    padding-bottom: 0;
+  }
+
+  .boton-quitar {
+    width: 100%;
+    padding: 0.6rem 1rem;
+  }
+
+  /* Botón de agregar y total, uno debajo del otro */
+  .acciones {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .acciones button {
+    width: 100%;
+    padding: 0.7rem 1rem;
+  }
+
+  .total {
+    text-align: center;
+    background: #e3f4ee;
+    padding: 0.6rem;
+    border-radius: 8px;
+  }
+
+  .card > button[type='submit'] {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  /* Filtro: campo arriba, botones abajo repartidos a la mitad */
+  .filtro {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .filtro input {
+    font-size: 16px;
+  }
+
+  .filtro-acciones button {
+    flex: 1;
+    padding: 0.7rem 1rem;
+  }
+
+  /* --- Las tablas como tarjetas --- */
+
+  table {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .consulta table {
+    border: none;
+  }
+
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  table,
+  tbody,
+  tbody tr,
+  tbody td {
+    display: block;
+    width: 100%;
+  }
+
+  tbody tr {
+    position: relative;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(16, 74, 61, 0.10);
+    margin-bottom: 1rem;
+    padding: 0.35rem 0;
+    overflow: hidden;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #ffffff;
+  }
+
+  /* Dentro de la tarjeta de consulta las filas llevan un borde
+     suave en vez de sombra, para no anidar dos elevaciones. */
+  .consulta tbody tr {
+    box-shadow: none;
+    border: 1px solid #e3ece9;
+  }
+
+  tbody td {
+    display: block;
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f0f5f3;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  tbody td:last-child {
+    border-bottom: none;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #6b7f7a;
+    margin-bottom: 0.15rem;
+  }
+
+  /* El primer dato encabeza la tarjeta: nombre del producto en los
+     detalles, fecha en el historial. */
+  tbody td.celda-titulo {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #104a3d;
+    padding-top: 0.2rem;
+    padding-right: 4.5rem;   /* aire para el ID flotante */
+    line-height: 1.3;
+  }
+
+  tbody td.celda-titulo::before {
+    content: none;
+  }
+
+  /* El ID de venta como píldora arriba a la derecha */
+  tbody td.celda-id {
+    position: absolute;
+    top: 0.6rem;
+    right: 1rem;
+    width: auto;
+    padding: 0.1rem 0.5rem;
+    background: #e3f4ee;
+    color: #14604e;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-bottom: none;
+    text-align: right;
+  }
+
+  tbody td.celda-id::before {
+    content: 'N.° ';
+    display: inline;
+    margin-bottom: 0;
+    font-size: 0.75rem;
+    color: inherit;
+  }
+
+  /* El monto es el dato que más se consulta en una venta */
+  tbody td.celda-monto {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #104a3d;
+    text-align: left;
+  }
+
+  /* En tarjeta, los números vuelven a alinearse a la izquierda:
+     la alineación derecha solo tiene sentido en columnas. */
+  .consulta tbody td:nth-child(2),
+  .consulta tbody td:nth-child(3) {
+    text-align: left;
+  }
+
+  /* Estado vacío */
+  tbody tr.fila-vacia {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  tbody td.sin-datos {
+    text-align: center;
+    border-bottom: none;
+  }
+
+  tbody td.sin-datos::before {
+    content: none;
+  }
 }

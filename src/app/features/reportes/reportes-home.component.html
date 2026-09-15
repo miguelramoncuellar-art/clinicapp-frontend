@@ -69,12 +69,12 @@
         <tbody>
           @for (fila of ventasPorDia(); track fila.dia) {
             <tr>
-              <td>{{ fila.dia | date: 'dd/MM/yyyy' : 'UTC' }}</td>
-              <td>{{ fila.total_ventas }}</td>
-              <td>{{ fila.ingresos | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+              <td data-label="Día" class="celda-titulo">{{ fila.dia | date: 'dd/MM/yyyy' : 'UTC' }}</td>
+              <td data-label="Ventas">{{ fila.total_ventas }}</td>
+              <td data-label="Ingresos" class="celda-monto">{{ fila.ingresos | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
             </tr>
           } @empty {
-            <tr><td colspan="3" class="vacio">Sin ventas en el rango seleccionado.</td></tr>
+            <tr class="fila-vacia"><td colspan="3" class="vacio sin-datos">Sin ventas en el rango seleccionado.</td></tr>
           }
         </tbody>
       </table>
@@ -89,13 +89,13 @@
         <tbody>
           @for (prod of productosMasVendidos(); track prod.id_producto; let i = $index) {
             <tr>
-              <td>{{ i + 1 }}</td>
-              <td>{{ prod.producto_nombre }}</td>
-              <td>{{ prod.unidades_vendidas }}</td>
-              <td>{{ prod.ingresos_generados | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+              <td data-label="Puesto" class="celda-puesto">{{ i + 1 }}</td>
+              <td data-label="Producto" class="celda-titulo">{{ prod.producto_nombre }}</td>
+              <td data-label="Unidades">{{ prod.unidades_vendidas }}</td>
+              <td data-label="Ingresos" class="celda-monto">{{ prod.ingresos_generados | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
             </tr>
           } @empty {
-            <tr><td colspan="4" class="vacio">Sin productos vendidos en el rango.</td></tr>
+            <tr class="fila-vacia"><td colspan="4" class="vacio sin-datos">Sin productos vendidos en el rango.</td></tr>
           }
         </tbody>
       </table>
@@ -110,12 +110,12 @@
         <tbody>
           @for (u of ventasPorUsuario(); track u.id_usuario) {
             <tr>
-              <td>{{ u.usuario_nombre }} {{ u.usuario_apellido }}</td>
-              <td>{{ u.total_ventas }}</td>
-              <td>{{ u.ingresos_generados | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
+              <td data-label="Usuario" class="celda-titulo">{{ u.usuario_nombre }} {{ u.usuario_apellido }}</td>
+              <td data-label="Ventas">{{ u.total_ventas }}</td>
+              <td data-label="Ingresos" class="celda-monto">{{ u.ingresos_generados | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</td>
             </tr>
           } @empty {
-            <tr><td colspan="3" class="vacio">Sin ventas registradas este mes.</td></tr>
+            <tr class="fila-vacia"><td colspan="3" class="vacio sin-datos">Sin ventas registradas este mes.</td></tr>
           }
         </tbody>
       </table>

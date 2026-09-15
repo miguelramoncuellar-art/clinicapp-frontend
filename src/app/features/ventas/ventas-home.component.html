@@ -18,7 +18,7 @@
   <div formArrayName="items">
     @for (item of items.controls; track item; let i = $index) {
       <div class="linea" [formGroupName]="i">
-        <label>
+        <label class="campo-producto">
           Producto
           <select formControlName="id_producto">
             <!-- [ngValue] conserva el number; con value el DOM lo volvería string -->
@@ -32,7 +32,7 @@
           }
         </label>
 
-        <label>
+        <label class="campo-cantidad">
           Cantidad
           <input type="number" formControlName="cantidad" />
           @if (item.get('cantidad')?.touched && item.get('cantidad')?.invalid) {
@@ -42,7 +42,7 @@
 
         <span class="precio-linea">Precio: {{ precioProducto(i) }}</span>
 
-        <button type="button" (click)="eliminarItem(i)" [disabled]="items.length === 1">
+        <button type="button" class="secundario boton-quitar" (click)="eliminarItem(i)" [disabled]="items.length === 1">
           Quitar
         </button>
       </div>
@@ -50,7 +50,7 @@
   </div>
 
   <div class="acciones">
-    <button type="button" (click)="agregarItem()">Agregar producto</button>
+    <button type="button" class="secundario" (click)="agregarItem()">Agregar producto</button>
     <p class="total">Total estimado: $ {{ totalEstimado() | number:'1.2-2' }}</p>
   </div>
 
@@ -65,14 +65,16 @@
     Buscar venta por ID
     <input type="number" [formControl]="busquedaId" />
   </label>
-  <button type="button" (click)="onBuscar()" [disabled]="busquedaId.invalid">Buscar</button>
-  <button type="button" (click)="limpiarBusqueda()">Limpiar</button>
+  <div class="filtro-acciones">
+    <button type="button" (click)="onBuscar()" [disabled]="busquedaId.invalid">Buscar</button>
+    <button type="button" class="secundario" (click)="limpiarBusqueda()">Limpiar</button>
+  </div>
 </section>
 
 @if (ventaConsultada(); as venta) {
   <div class="card consulta">
     <h3>Venta #{{ venta.id_venta }}</h3>
-    <p>
+    <p class="resumen-venta">
       {{ venta.fecha | date:'dd/MM/yyyy HH:mm' }} —
       Vendedor: {{ venta.usuario_nombre }} {{ venta.usuario_apellido }} —
       Total: $ {{ venta.total }}
@@ -89,10 +91,10 @@
       <tbody>
         @for (d of venta.detalles; track d.id_detalle) {
           <tr>
-            <td>{{ d.producto }}</td>
-            <td>{{ d.cantidad }}</td>
-            <td>$ {{ d.precio_unitario }}</td>
-            <td>$ {{ d.subtotal }}</td>
+            <td data-label="Producto" class="celda-titulo">{{ d.producto }}</td>
+            <td data-label="Cantidad">{{ d.cantidad }}</td>
+            <td data-label="Precio unitario">$ {{ d.precio_unitario }}</td>
+            <td data-label="Subtotal" class="celda-monto">$ {{ d.subtotal }}</td>
           </tr>
         }
       </tbody>
@@ -121,14 +123,14 @@
       <tbody>
         @for (v of ventas(); track v.id_venta) {
           <tr>
-            <td>{{ v.id_venta }}</td>
-            <td>{{ v.fecha | date:'dd/MM/yyyy HH:mm' }}</td>
-            <td>{{ v.usuario_nombre }} {{ v.usuario_apellido }}</td>
-            <td>$ {{ v.total }}</td>
+            <td data-label="ID" class="celda-id">{{ v.id_venta }}</td>
+            <td data-label="Fecha" class="celda-titulo">{{ v.fecha | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td data-label="Vendedor">{{ v.usuario_nombre }} {{ v.usuario_apellido }}</td>
+            <td data-label="Total" class="celda-monto">$ {{ v.total }}</td>
           </tr>
         } @empty {
-          <tr>
-            <td colspan="4" class="estado">No hay ventas registradas.</td>
+          <tr class="fila-vacia">
+            <td colspan="4" class="estado sin-datos">No hay ventas registradas.</td>
           </tr>
         }
       </tbody>

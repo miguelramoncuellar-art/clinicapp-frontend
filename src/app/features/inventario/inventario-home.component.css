@@ -8,9 +8,10 @@
 .card {
   flex: 1;
   min-width: 260px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid #cddfda;
+  border-radius: 12px;
   padding: 1rem;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -18,6 +19,8 @@
 
 .card h3 {
   margin: 0;
+  color: #104a3d;
+  font-size: 1rem;
 }
 
 .card label,
@@ -26,21 +29,53 @@
   flex-direction: column;
   gap: 0.25rem;
   font-size: 0.9rem;
+  color: #104a3d;
+  font-weight: 600;
 }
 
 .card input,
 .filtro input {
-  padding: 0.4rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #cddfda;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.card input:focus,
+.filtro input:focus {
+  outline: none;
+  border-color: #1b7a63;
+  box-shadow: 0 0 0 3px rgba(27, 122, 99, 0.15);
 }
 
 .card button,
 .filtro button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
+  padding: 0.55rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #104a3d;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
+}
+
+.card button:hover:not(:disabled),
+.filtro button:hover:not(:disabled) {
+  background: #1b7a63;
+}
+
+.filtro button.secundario {
+  background: transparent;
+  border-color: #104a3d;
+  color: #104a3d;
+}
+
+.filtro button.secundario:hover:not(:disabled) {
+  background: #e3f4ee;
+  color: #104a3d;
 }
 
 .card button:disabled,
@@ -51,6 +86,7 @@
 
 .error-campo {
   color: #c0392b;
+  font-size: 0.8rem;
 }
 
 .filtro {
@@ -58,4 +94,297 @@
   align-items: flex-end;
   gap: 0.5rem;
   margin-bottom: 1rem;
+}
+
+.filtro-acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.estado {
+  color: #6b7f7a;
+}
+
+.estado.exito {
+  background: #e3f4ee;
+  color: #14604e;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+}
+
+.estado.error {
+  background: #fdecec;
+  color: #a33a3a;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+}
+/* --- Tabla (faltaba por completo: estaba usando los defaults
+       del navegador, por eso se veía suelta y sin forma) --- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(16, 74, 61, 0.12);
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+thead {
+  background: #e3f4ee;
+  color: #104a3d;
+}
+
+th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+  background: #f6faf9;
+}
+
+/* Los números se leen mejor alineados a la derecha: las unidades,
+   decenas y centenas quedan en columna. */
+th:nth-child(1), td:nth-child(1),   /* ID */
+th:nth-child(3), td:nth-child(3),   /* Lote */
+th:nth-child(5), td:nth-child(5),   /* Cantidad del lote */
+th:nth-child(6), td:nth-child(6) {  /* Stock actual */
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* El stock actual es el dato que más se consulta */
+td:nth-child(6) {
+  font-weight: 600;
+  color: #104a3d;
+}
+
+/* El ID es un identificador, no un dato de negocio: se atenúa */
+td:nth-child(1) {
+  color: #6b7f7a;
+  font-size: 0.85rem;
+}
+/* --- Alerta de stock bajo --- */
+
+/* El color por sí solo no basta (daltonismo): la fila lleva además
+   una etiqueta de texto "Bajo" junto al número. */
+tbody tr.stock-bajo {
+  background: #fdf3f3;
+}
+
+tbody tr.stock-bajo:nth-child(even) {
+  background: #fbebeb;
+}
+
+tbody tr.stock-bajo td:nth-child(6) {
+  color: #a33a3a;
+}
+
+.etiqueta-bajo {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.1rem 0.45rem;
+  background: #fdecec;
+  color: #a33a3a;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  vertical-align: middle;
+}
+/* ============================================================
+   RESPONSIVE — misma estrategia que productos-home: la tabla se
+   convierte en tarjetas. Además los dos formularios y el filtro
+   pasan de fila a columna.
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* Los dos formularios uno debajo del otro */
+  .formularios {
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .card {
+    min-width: 0;   /* el 260px forzaba desborde en pantallas de 360px */
+  }
+
+  .card button {
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  /* Filtro: campo arriba, botones abajo repartidos a la mitad */
+  .filtro {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .filtro-acciones button {
+    flex: 1;
+    padding: 0.7rem 1rem;
+  }
+
+  /* Evita el zoom automático al enfocar un campo en iOS */
+  .card input,
+  .filtro input {
+    font-size: 16px;
+  }
+
+  /* --- La tabla como tarjetas --- */
+
+  table {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  table,
+  tbody,
+  tbody tr,
+  tbody td {
+    display: block;
+    width: 100%;
+  }
+
+  tbody tr {
+    position: relative;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(16, 74, 61, 0.10);
+    margin-bottom: 1rem;
+    padding: 0.35rem 0;
+    overflow: hidden;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #ffffff;
+  }
+
+  tbody td {
+    display: block;
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f0f5f3;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  tbody td:last-child {
+    border-bottom: none;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #6b7f7a;
+    margin-bottom: 0.15rem;
+  }
+
+  /* El nombre del producto encabeza la tarjeta */
+  tbody td.celda-titulo {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #104a3d;
+    padding-top: 0.2rem;
+    padding-right: 4.5rem;   /* deja aire para el ID flotante */
+    line-height: 1.3;
+  }
+
+  tbody td.celda-titulo::before {
+    content: none;
+  }
+
+  /* El ID se ancla arriba a la derecha como una etiqueta discreta,
+     en vez de gastar una fila entera de la tarjeta. */
+  tbody td.celda-id {
+    position: absolute;
+    top: 0.6rem;
+    right: 1rem;
+    width: auto;
+    padding: 0.1rem 0.5rem;
+    background: #e3f4ee;
+    color: #14604e;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-bottom: none;
+  }
+
+  tbody td.celda-id::before {
+    content: 'ID ';
+    display: inline;
+    margin-bottom: 0;
+    font-size: 0.75rem;
+    color: inherit;
+  }
+
+  /* El stock actual es el dato que más se consulta: se destaca */
+  tbody td.celda-stock {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #104a3d;
+  }
+
+  /* Estado vacío */
+  tbody tr.fila-vacia {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  tbody td.sin-datos {
+    text-align: center;
+    border-bottom: none;
+  }
+
+  tbody td.sin-datos::before {
+    content: none;
+  }
+    /* En móvil la tarjeta completa se tiñe y se marca con una barra
+     lateral roja, más visible que un cambio sutil de fondo. */
+  tbody tr.stock-bajo {
+    background: #fdf3f3;
+    border-left: 4px solid #a33a3a;
+  }
+
+  tbody tr.stock-bajo:nth-child(even) {
+    background: #fdf3f3;
+  }
+
+  tbody td.celda-stock {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  tbody td.celda-stock::before {
+    flex-basis: 100%;
+  }
 }

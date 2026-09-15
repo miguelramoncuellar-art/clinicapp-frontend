@@ -70,8 +70,10 @@
     Filtrar por ID de producto
     <input type="number" [formControl]="filtroProducto" />
   </label>
-  <button type="button" (click)="onFiltrar()" [disabled]="filtroProducto.invalid || cargando()">Filtrar</button>
-  <button type="button" (click)="verTodo()" [disabled]="cargando()">Ver todo</button>
+  <div class="filtro-acciones">
+    <button type="button" (click)="onFiltrar()" [disabled]="filtroProducto.invalid || cargando()">Filtrar</button>
+    <button type="button" class="secundario" (click)="verTodo()" [disabled]="cargando()">Ver todo</button>
+  </div>
 </section>
 
 @if (cargando()) {
@@ -94,19 +96,24 @@
     </thead>
     <tbody>
       @for (r of registros(); track r.id_inventario) {
-        <tr>
-          <td>{{ r.id_inventario }}</td>
-          <td>{{ r.producto_nombre }}</td>
-          <td>{{ r.id_lote }}</td>
-          <td>{{ r.fecha_vencimiento | date:'dd/MM/yyyy' }}</td>
-          <td>{{ r.cantidad_lote }}</td>
-          <td>{{ r.stock_actual }}</td>
-          <td>{{ r.proveedor_nombre }}</td>
-          <td>{{ r.inventario_actualizado_en | date:'dd/MM/yyyy HH:mm' }}</td>
+                <tr [class.stock-bajo]="esStockBajo(r)">
+          <td data-label="ID" class="celda-id">{{ r.id_inventario }}</td>
+          <td data-label="Producto" class="celda-titulo">{{ r.producto_nombre }}</td>
+          <td data-label="Lote">{{ r.id_lote }}</td>
+          <td data-label="Vencimiento">{{ r.fecha_vencimiento | date:'dd/MM/yyyy' }}</td>
+          <td data-label="Cantidad del lote">{{ r.cantidad_lote }}</td>
+          <td data-label="Stock actual" class="celda-stock">
+            {{ r.stock_actual }}
+            @if (esStockBajo(r)) {
+              <span class="etiqueta-bajo">Bajo</span>
+            }
+          </td>
+          <td data-label="Proveedor">{{ r.proveedor_nombre }}</td>
+          <td data-label="Actualizado">{{ r.inventario_actualizado_en | date:'dd/MM/yyyy HH:mm' }}</td>
         </tr>
       } @empty {
-        <tr>
-          <td colspan="8" class="estado">No hay registros de inventario.</td>
+        <tr class="fila-vacia">
+          <td colspan="8" class="estado sin-datos">No hay registros de inventario.</td>
         </tr>
       }
     </tbody>
